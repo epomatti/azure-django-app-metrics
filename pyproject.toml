@@ -6,6 +6,7 @@ authors = ["Evandro Pomatti <evandro.pomatti@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+djangorestframework = "^3.13.1"
 
 [tool.poetry.dev-dependencies]
 
