@@ -1,5 +1,6 @@
-# azure-django-app-metrics
-APM with Azure Application Insights with Django
+# Azure Application Insights metrics with Django
+
+Install all dependencies:
 
 ```sh
 poetry install
@@ -16,6 +17,8 @@ az monitor log-analytics workspace create -g 'rg-myapp' -n 'log-myapp' -l 'brazi
 az extension add --name application-insights
 az monitor app-insights component create --app 'appi-myapp' -l 'brazilsouth' -g 'rg-myapp' --workspace 'log-myapp'
 ```
+
+Set the 
 
 ```sh
 python manage.py migrate
