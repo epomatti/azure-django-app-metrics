@@ -1,6 +1,6 @@
 # Django Metrics <img src=".docs/django.jpg" width=25 /> <img src=".docs/appi.svg" width=22 />
 
-Implementation of a Django application sending telemetry to Azure Application Insights.
+Implementation of a Django REST application sending telemetry to Azure Application Insights.
 
 Install the dependencies:
 
