@@ -2,6 +2,8 @@
 
 Implementation of a Django REST API sending telemetry to Azure Application Insights.
 
+<img src=".docs/metrics.png" width=400 />
+
 Install the dependencies:
 
 ```sh
