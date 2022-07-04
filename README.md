@@ -1,4 +1,4 @@
-# Django Metrics
+# Django Metrics <img src=".docs/django.jpg" width=25 /> <img src=".docs/appi.svg" width=22 />
 
 Implementation of a Django application sending telemetry to Azure Application Insights.
 
