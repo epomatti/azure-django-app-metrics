@@ -2,7 +2,9 @@
 
 Implementation of a Django REST API sending telemetry to Azure Application Insights.
 
-<img src=".docs/metrics.png" width=400 />
+<img src=".docs/metrics.png" width=500 />
+
+Using Application Insights should follow [good practices][1]. To identify specific services, implement the [Cloud_RoleName][2] tag.
 
 Install the dependencies:
 
@@ -13,23 +15,31 @@ poetry shell
 
 Create the Azure Resources:
 
-```sh
-az group create -n 'rg-myapp' -l 'brazilsouth'
-az monitor log-analytics workspace create -g 'rg-myapp' -n 'log-myapp' -l 'brazilsouth'
-az monitor app-insights component create --app 'appi-myapp' -l 'brazilsouth' -g 'rg-myapp' --workspace 'log-myapp'
+```
+az deployment sub create \
+  --location brazilsouth \
+  --template-file azure/main.bicep \
+  --parameters rgLocation=brazilsouth
 ```
 
-Get the Applicatoin Insights connection string:
+Get the Application Insights connection string:
 
 ```sh
 az monitor app-insights component show --app 'appi-myapp' -g 'rg-myapp' --query 'connectionString' -o tsv
 ```
 
-Set the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable.
+Set the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable:
 
-Apply the migrations and start the server to start sending telemetery.
+```sh
+cp sample.env .env
+```
+
+Apply the migrations and start the server to start sending telemetry.
 
 ```sh
 python manage.py migrate
 python manage.py runserver
 ```
+
+[1]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/separate-resources
+[2]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-map?tabs=python#set-or-override-cloud-role-name
