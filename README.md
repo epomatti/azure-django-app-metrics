@@ -4,7 +4,7 @@ Implementation of a Django REST API sending telemetry to Azure Application Insig
 
 <img src=".docs/metrics.png" width=500 />
 
-Using Application Insights should follow [good practices][1]. To identify specific services, implement the [Cloud_RoleName][2] tag.
+Using Application Insights should follow [good practices][1]. Implement [Cloud_RoleName][2] tags for microservices.
 
 Install the dependencies:
 
