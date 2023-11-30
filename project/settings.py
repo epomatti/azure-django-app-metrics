@@ -11,19 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import os
-import environ
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -57,7 +48,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "opencensus.ext.django.middleware.OpencensusMiddleware",
 ]
 
 ROOT_URLCONF = "project.urls"
@@ -135,36 +125,46 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ### Logging / Metrics ###
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "azure": {
-            "level": "DEBUG",
-            "class": "opencensus.ext.azure.log_exporter.AzureLogHandler",
-        },
-        "console": {
-            "class": "logging.StreamHandler",
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["console"],
-        },
-        "insights": {
-            "handlers": ["azure"],
-            "level": "DEBUG",
-        },
-    },
-}
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "azure": {
+#             "level": "DEBUG",
+#             "class": "opencensus.ext.azure.log_exporter.AzureLogHandler",
+#         },
+#         "console": {
+#             "class": "logging.StreamHandler",
+#         },
+#     },
+#     "loggers": {
+#         "django": {
+#             "handlers": ["console"],
+#         },
+#         "insights": {
+#             "handlers": ["azure"],
+#             "level": "DEBUG",
+#         },
+#     },
+# }
 
-CONNECTION_STRING = env("APPLICATIONINSIGHTS_CONNECTION_STRING")
 
-OPENCENSUS = {
-    "TRACE": {
-        "SAMPLER": "opencensus.trace.samplers.ProbabilitySampler(rate=1)",
-        "EXPORTER": f"""opencensus.ext.azure.trace_exporter.AzureExporter(
-            connection_string="{CONNECTION_STRING}"
-        )""",
-    }
-}
+# CONNECTION_STRING = env("APPLICATIONINSIGHTS_CONNECTION_STRING")
+
+# Configure OpenTelemetry to use Azure Monitor with the specified connection
+# string.
+# configure_azure_monitor(
+#     connection_string=CONNECTION_STRING,
+# )
+
+# Get a tracer for the current module.
+# tracer = trace.get_tracer(__name__)
+
+# # Start a new span with the name "hello". This also sets this created span as the current span in this context. This span will be exported to Azure Monitor as part of the trace.
+# with tracer.start_as_current_span("hello"):
+#     print("Hello, World!")
+
+# # Wait for export to take place in the background.
+# input()
+
+
