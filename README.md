@@ -8,14 +8,9 @@ Implement [Cloud_RoleName][2] tags for microservices.
 
 <img src=".docs/metrics.png" width=500 />
 
-Install the dependencies:
+## Setup
 
-```sh
-poetry install
-poetry shell
-```
-
-Make sure to upgrade Bicep:
+Start by creating the Application Insights resource. Make sure to upgrade Bicep:
 
 ```sh
 az bicep upgrade
@@ -40,6 +35,15 @@ Set the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable:
 
 ```sh
 cp samples/sample.env .env
+```
+
+## Run
+
+Install the dependencies:
+
+```sh
+poetry install
+poetry shell
 ```
 
 Apply the migrations and start the server to start sending telemetry.
