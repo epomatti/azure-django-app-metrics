@@ -62,9 +62,9 @@ requests
 
 ## Docker
 
-> Code based off my other project [benchmarks](https://github.com/epomatti/workload-benchmarks/blob/main/apps/django/Dockerfile).
+> Code based off my other project [epomatti/benchmarks](https://github.com/epomatti/workload-benchmarks/blob/main/apps/django/Dockerfile).
 
-Start the thing:
+Make sure the `.env` is configured, and start the application:
 
 ```sh
 docker compose up --build
