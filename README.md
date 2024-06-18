@@ -4,38 +4,34 @@ Implementation of a Django REST API sending telemetry to Azure Application Insig
 
 Implement [Cloud_RoleName][2] tags for microservices.
 
-> Live metrics is not supported at this time
-
 <img src=".docs/metrics.png" width=500 />
 
 ## Setup
 
-Start by creating the Application Insights resource. Make sure to upgrade Bicep:
+### Infrastructure
+
+Create the infrastructure:
 
 ```sh
-az bicep upgrade
+terraform -chdir="azure/terraform" init
+terraform -chdir="azure/terraform" apply -auto-approve
 ```
 
-Create the Azure Resources:
+Get the Application Insights connection string:
 
 ```sh
-az deployment sub create \
-    --location brazilsouth \
-    --template-file azure/main.bicep \
-    --parameters rgLocation=brazilsouth
+az monitor app-insights component show --app '<appi>' -g '<group>' --query 'connectionString' -o tsv
 ```
 
-To get the Application Insights connection string:
+### Application
 
-```sh
-az monitor app-insights component show --app 'appi-myapp' -g 'rg-myapp' --query 'connectionString' -o tsv
-```
-
-Set the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable:
+Create the `.env` file from the template:
 
 ```sh
 cp samples/sample.env .env
 ```
+
+Set the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable with the Azure value.
 
 ## Run
 
@@ -54,6 +50,26 @@ python manage.py runserver --noreload
 ```
 
 Additional examples [here][4] and [here][5].
+
+## Queries
+
+Example query on table `request`:
+
+```sql
+requests
+| where timestamp >= ago(1h)
+```
+
+## Docker
+
+> Code based off my other project [benchmarks](https://github.com/epomatti/workload-benchmarks/blob/main/apps/django/Dockerfile).
+
+Start the thing:
+
+```sh
+docker compose up --build
+```
+
 
 [1]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/separate-resources
 [2]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-map?tabs=python#set-or-override-cloud-role-name
