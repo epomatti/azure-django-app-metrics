@@ -8,12 +8,12 @@ authors = ["Evandro Pomatti <evandro.pomatti@gmail.com>"]
 python = "^3.10"
 djangorestframework = "^3.15.1"
 django-environ = "^0.11.2"
-azure-monitor-opentelemetry = "1.4.1"
-opentelemetry-sdk = "^1.24.0"
-opentelemetry-instrumentation-django = "^0.45b0"
+azure-monitor-opentelemetry = "^1.6.0"
+opentelemetry-sdk = "^1.25.0"
+opentelemetry-instrumentation-django = "^0.46b0"
 
 [tool.poetry.dev-dependencies]
-pylint = "^3.1.0"
+pylint = "^3.2.3"
 pylint-django = "^2.5.5"
 
 [build-system]
