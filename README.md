@@ -51,9 +51,15 @@ python manage.py runserver --noreload
 
 Additional examples [here][4] and [here][5].
 
-## Queries
+## Test
 
-Example query on table `request`:
+Call the API to test the tracing:
+
+```sh
+curl localhost:8000/users/
+```
+
+Example KQL query on table `request`:
 
 ```sql
 requests
@@ -68,6 +74,12 @@ Make sure the `.env` is configured, and start the application:
 
 ```sh
 docker compose up --build
+```
+
+Test the tracing:
+
+```sh
+curl localhost:8000/users/
 ```
 
 
