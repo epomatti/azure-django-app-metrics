@@ -82,9 +82,17 @@ Test the tracing:
 curl localhost:8000/users/
 ```
 
+## Troubleshooting
+
+Issues with `gunicorn` may happen, such as [this one][7].
+
+Follow the [documentation][6] for troubleshooting various scenarios.
+
 
 [1]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/separate-resources
 [2]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-map?tabs=python#set-or-override-cloud-role-name
 [3]: https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/monitor/azure-monitor-opentelemetry-exporter/samples/traces/django/sample/manage.py
 [4]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-django
 [5]: https://learn.microsoft.com/en-us/python/api/overview/azure/monitor-opentelemetry-readme?view=azure-python
+[6]: https://learn.microsoft.com/en-us/troubleshoot/azure/azure-monitor/app-insights/telemetry/opentelemetry-troubleshooting-python
+[7]: https://stackoverflow.com/questions/78313334/python-opentelemetry-wsgi-usage-with-gunicorn-application-insights
