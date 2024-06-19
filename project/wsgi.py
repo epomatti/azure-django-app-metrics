@@ -14,7 +14,4 @@ from opentelemetry.instrumentation.django import DjangoInstrumentor
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 
-# This call is what makes the Django application be instrumented
-DjangoInstrumentor().instrument()
-
 application = get_wsgi_application()

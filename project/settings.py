@@ -10,11 +10,34 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
 
+import os
+from pathlib import Path
+import environ
+from opentelemetry import trace
+from opentelemetry.instrumentation.django import DjangoInstrumentor
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
+
+from azure.monitor.opentelemetry.exporter import AzureMonitorTraceExporter
+from opentelemetry.instrumentation.django import DjangoInstrumentor
+from opentelemetry.instrumentation.logging import LoggingInstrumentor
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Environment variables
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -38,6 +61,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "myapp",
 ]
 
 MIDDLEWARE = [
@@ -130,3 +154,23 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+### Azure Monitor ###
+trace.set_tracer_provider(TracerProvider())
+span_processor = BatchSpanProcessor(
+    AzureMonitorTraceExporter.from_connection_string(
+        env("APPLICATIONINSIGHTS_CONNECTION_STRING")
+    )
+)
+trace.get_tracer_provider().add_span_processor(span_processor)
+
+# This call is what makes the Django application be instrumented
+DjangoInstrumentor().instrument()
+LoggingInstrumentor().instrument()
+
+# trace.start_as_current_span("main")
+logger.info("Hello, World!")
+
+
+# Wait for export to take place in the background
+# input()

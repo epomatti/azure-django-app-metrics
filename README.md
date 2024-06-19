@@ -45,6 +45,7 @@ poetry shell
 Apply the migrations and start the server to start sending telemetry.
 
 ```sh
+python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver --noreload
 ```
@@ -96,3 +97,7 @@ Follow the [documentation][6] for troubleshooting various scenarios.
 [5]: https://learn.microsoft.com/en-us/python/api/overview/azure/monitor-opentelemetry-readme?view=azure-python
 [6]: https://learn.microsoft.com/en-us/troubleshoot/azure/azure-monitor/app-insights/telemetry/opentelemetry-troubleshooting-python
 [7]: https://stackoverflow.com/questions/78313334/python-opentelemetry-wsgi-usage-with-gunicorn-application-insights
+
+https://github.com/open-telemetry/opentelemetry-python/issues/3573
+https://stackoverflow.com/questions/78129823/python-opentelemetry-events-in-application-insights
+https://stackoverflow.com/questions/77521347/how-can-i-use-azure-appinsights-with-opentelemetry-in-django
