@@ -25,8 +25,8 @@ from opentelemetry.instrumentation.logging import LoggingInstrumentor
 import logging
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# logging.basicConfig(level=logging.WARNING)
+# logger = logging.getLogger(__name__)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -79,7 +79,8 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
 }
 
 ROOT_URLCONF = "project.urls"
@@ -156,20 +157,28 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ### Azure Monitor ###
-trace.set_tracer_provider(TracerProvider())
-span_processor = BatchSpanProcessor(
-    AzureMonitorTraceExporter.from_connection_string(
-        env("APPLICATIONINSIGHTS_CONNECTION_STRING")
-    )
-)
-trace.get_tracer_provider().add_span_processor(span_processor)
+from azure.monitor.opentelemetry import configure_azure_monitor
+from opentelemetry import trace
 
-# This call is what makes the Django application be instrumented
+configure_azure_monitor(
+  connection_string=env("APPLICATIONINSIGHTS_CONNECTION_STRING"),
+  logger_name="default"
+)
+
+# trace.set_tracer_provider(TracerProvider())
+# span_processor = BatchSpanProcessor(
+#     AzureMonitorTraceExporter.from_connection_string(
+#         env("APPLICATIONINSIGHTS_CONNECTION_STRING")
+#     )
+# )
+# trace.get_tracer_provider().add_span_processor(span_processor)
+
+# # This call is what makes the Django application be instrumented
 DjangoInstrumentor().instrument()
 LoggingInstrumentor().instrument()
 
-# trace.start_as_current_span("main")
-logger.info("Hello, World!")
+# # trace.start_as_current_span("main")
+# logger.info("Hello, World!")
 
 
 # Wait for export to take place in the background

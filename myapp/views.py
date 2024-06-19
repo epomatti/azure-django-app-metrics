@@ -2,7 +2,10 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from .serializers import UserSerializer, GroupSerializer, CitySerializer
 from .models import City
+from rest_framework.exceptions import APIException
+import logging
 
+logger = logging.getLogger("default")
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -28,7 +31,11 @@ class CityViewSet(viewsets.ModelViewSet):
     """
 
     def get_queryset(self):
-        print("HELLO!!!")
+        name = self.request.query_params.get('name')
+        if name == "exception":
+            raise APIException("There was a problem!")
+        logger.info(f"Received parameter: {name}")
+        logger.warning("This is a warning!")
         return City.objects.all()
 
     queryset = City.objects.all()
