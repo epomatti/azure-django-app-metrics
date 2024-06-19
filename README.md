@@ -69,7 +69,8 @@ requests
 
 ## Docker
 
-> Code based off my other project [epomatti/benchmarks](https://github.com/epomatti/workload-benchmarks/blob/main/apps/django/Dockerfile).
+> [!TIP]
+> Code snippets based from my other project [epomatti/benchmarks](https://github.com/epomatti/workload-benchmarks/blob/main/apps/django/Dockerfile).
 
 Make sure the `.env` is configured, and start the application:
 
