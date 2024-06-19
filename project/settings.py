@@ -165,21 +165,6 @@ configure_azure_monitor(
   logger_name="default"
 )
 
-# trace.set_tracer_provider(TracerProvider())
-# span_processor = BatchSpanProcessor(
-#     AzureMonitorTraceExporter.from_connection_string(
-#         env("APPLICATIONINSIGHTS_CONNECTION_STRING")
-#     )
-# )
-# trace.get_tracer_provider().add_span_processor(span_processor)
-
 # # This call is what makes the Django application be instrumented
 DjangoInstrumentor().instrument()
 LoggingInstrumentor().instrument()
-
-# # trace.start_as_current_span("main")
-# logger.info("Hello, World!")
-
-
-# Wait for export to take place in the background
-# input()
