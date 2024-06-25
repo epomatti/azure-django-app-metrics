@@ -165,6 +165,6 @@ configure_azure_monitor(
   logger_name="default"
 )
 
-# # This call is what makes the Django application be instrumented
+# This call is what makes the Django application be instrumented
 DjangoInstrumentor().instrument()
 LoggingInstrumentor().instrument()
